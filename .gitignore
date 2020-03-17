@@ -13,7 +13,7 @@
 
 
 # Firebase
-.firebaseconfig
+.firebaseconfig.js
 
 # misc
 .DS_Store
