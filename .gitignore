@@ -14,7 +14,7 @@
 
 # Firebase
 .firebase/
-.firebaseconfig.js
+/src/firebaseconfig.js
 
 # misc
 .DS_Store
