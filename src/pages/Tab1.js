@@ -1,9 +1,13 @@
-import React from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import React, {Component} from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
+import AddMiles from '../components/AddMiles';
 import './Tab1.css';
+import RunningCalendar from '../components/RunningCalendar';
 
-const Tab1: React.FC = () => {
+class Tab1 extends Component {
+
+  render() {
   return (
     <IonPage>
       <IonHeader>
@@ -18,9 +22,11 @@ const Tab1: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <ExploreContainer name="Tab 1 page" />
+        <AddMiles/>
       </IonContent>
     </IonPage>
   );
+  }
 };
 
 export default Tab1;
