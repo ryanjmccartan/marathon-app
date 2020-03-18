@@ -3,7 +3,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton } from 
 import ExploreContainer from '../components/ExploreContainer';
 import AddMiles from '../components/AddMiles';
 import './Tab1.css';
-import RunningCalendar from '../components/RunningCalendar';
+import firebase from '../firebaseconfig';
 
 class Tab1 extends Component {
 
@@ -21,7 +21,7 @@ class Tab1 extends Component {
             <IonTitle size="large">Tab 1</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name="Tab 1 page" />
+        {/* <ExploreContainer name="Tab 1 page" /> */}
         <AddMiles/>
       </IonContent>
     </IonPage>
