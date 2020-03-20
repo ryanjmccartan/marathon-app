@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
@@ -12,9 +12,8 @@ import {
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
 import Tab1 from './pages/Tab1.js';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
-import RunningCalendar from './components/RunningCalendar.js';
+import Tab2 from './pages/Tab2.js';
+import firebase from './firebaseconfig';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -36,30 +35,65 @@ import 'react-calendar/dist/Calendar.css';
 /* Theme variables */
 import './theme/variables.css';
 
-const App: React.FC = () => (
-  <IonApp>
+class App extends Component {
+
+  // constructor(props) {
+  //   super(props);
+  //   this.rootRef = firebase.database().ref().child('tracker');
+  //   this.state = {
+  //     data: []
+  //   }
+  // }
+
+  // componentDidMount() {
+  //   this.getData();
+  // }
+
+//   getData = () => {
+//     this.rootRef.on('value', data => {
+//         data.forEach(milesnap => {
+//             const milekey = milesnap.key;
+//             const miledata = milesnap.val();
+//             this.setState({
+//               data: [...this.state.data, {
+//                 id: milesnap.key,
+//                 miles: miledata.miles,
+//                 time: miledata.time,
+//                 date: miledata.date
+//               }]
+//             })
+//         console.log(milekey, miledata);
+//         })
+//         console.log('this is tracker data', this.state.data)
+//     })
+// }
+
+  render() {
+    return(
+      <IonApp>
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Route path="/tab1" component={Tab1} exact={true} />
-          <Route path="/tab2" component={Tab2} exact={true} />
-          <Route path="/tab3" component={Tab3} />
-          <Route path="/calendar" component={RunningCalendar} exact={true}/>
+          <Route path="/tab1" render={() => <Tab1 exact={true}/>} />
+          <Route path="/tab2" render={() => <Tab2 exact={true}/>} />
           <Route path="/" render={() => <Redirect to="/tab1" />} exact={true} />
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="tab1" href="/tab1">
-            <IonIcon icon={triangle} />
+            {/* <IonIcon icon={triangle} /> */}
             <IonLabel>Journal</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab2" href="/tab2">
-            <IonIcon icon={ellipse} />
+            {/* <IonIcon icon={ellipse} /> */}
             <IonLabel>Progress</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
     </IonReactRouter>
   </IonApp>
-);
+  )
+}
+  
+};
 
 export default App;

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonText } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonButton, IonCard, IonText, IonItem, IonList } from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import AddMiles from '../components/AddMiles';
 import './Tab1.css';
@@ -11,7 +11,6 @@ class Tab1 extends Component {
     super(props);
     this.rootRef = firebase.database().ref().child('tracker');
     this.state = {
-      key: '',
       data: []
     }
   }
@@ -23,19 +22,19 @@ class Tab1 extends Component {
   getData = () => {
     this.rootRef.on('value', data => {
         data.forEach(milesnap => {
-            let milekey = milesnap.key;
-            let miledata = milesnap.val();
+            const milekey = milesnap.key;
+            const miledata = milesnap.val();
             this.setState({
-              key: milesnap.key,
-              data: [...this.state.data, miledata]
-                // id: milekey,
-                // miles: milesnap.val().miles,
-                // time: milesnap.val().time,
-                // date: milesnap.val().date
+              data: [...this.state.data, {
+                id: milesnap.key,
+                miles: miledata.miles,
+                time: miledata.time,
+                date: miledata.date
+              }]
             })
         console.log(milekey, miledata);
-        console.log('this is tracker data', this.state)
         })
+        console.log('this is tracker data', this.state.data)
     })
 }
 
@@ -53,28 +52,23 @@ class Tab1 extends Component {
             <IonTitle size="large">Tab 1</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonText>{this.state.data.map(data => {
-          return <h1>Miles:
-            {data.miles}
-            Time:
-          {data.time}
-          Date: 
-          {data.date}</h1>
-        })}</IonText>
-        {/* <IonCard>
-                    <IonText>
-                {this.state.data.map(mile => {
-                    return <h1 key={mile.id}>{mile.miles}
-                    {mile.time}
-                    {mile.date}</h1>
-                    
-                
-                })}
-                </IonText>
-                </IonCard> */}
-              
-        {/* <ExploreContainer name="Tab 1 page" /> */}
-        <AddMiles/>
+        <IonList>
+          {this.state.data.map(data => (
+            <IonItem>
+              <IonText>
+                <h1>Miles: {data.miles}</h1>
+              </IonText>
+              <IonText>
+                <h1>Time: {data.time}</h1>
+              </IonText>
+              <IonText slot="end">
+                <h1>Date:{data.date}</h1>
+              </IonText>
+            </IonItem>
+          ))}
+          </IonList>
+
+        <AddMiles getData={this.getData}/>
       </IonContent>
     </IonPage>
   );
