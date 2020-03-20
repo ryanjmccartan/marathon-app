@@ -10,45 +10,39 @@ class Tab2 extends Component {
 
   constructor(props) {
     super(props)
-    this.rootRef = firebase.database().ref().child('tracker');
     this.totalRef = firebase.database().ref().child('total_miles');
     this.state = {
-      miles: []
+      goal: 0
     }
   }
 
   componentDidMount() {
-    this.getMiles();
+    this.getTotal();
   }
   
 
-  getMiles = () => {
-    this.rootRef.on('value', data => {
-        data.forEach(milesnap => {
-            this.setState({
-              miles: [...this.state.miles, Number(milesnap.val().miles)]
-            })
-          
+  getTotal = () => {
+        this.totalRef.on('value', total => {
+          this.setState({
+            goal: Number(total.val())
+          })
         })
-    })
-}
+    }
 
   checkTotal = () => {
-    console.log('miles total', this.state.miles)
+    console.log('miles total', this.props.total)
 }
 
 
   render(){
-    let total = 0;
-    this.state.miles.map(mile => {
-      total += mile;
-
-    })
+    const total = this.props.total;
+    const goal = this.state.goal
+    const progress = total / goal
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Tab 2</IonTitle>
+          <IonTitle>Progress</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -59,7 +53,7 @@ class Tab2 extends Component {
         </IonHeader>
         {/* <ExploreContainer name="Tab 2 page" /> */}
         {/* <ProgressBar miles={this.state.miles}/> */}
-        <IonProgressBar type="determinate"></IonProgressBar>
+        <IonProgressBar value={progress} type="determinate"></IonProgressBar>
         <IonButton onClick={this.checkTotal}>Check total miles</IonButton>
 
       </IonContent>

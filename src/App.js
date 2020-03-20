@@ -37,45 +37,54 @@ import './theme/variables.css';
 
 class App extends Component {
 
-  // constructor(props) {
-  //   super(props);
-  //   this.rootRef = firebase.database().ref().child('tracker');
-  //   this.state = {
-  //     data: []
-  //   }
-  // }
+  constructor(props) {
+    super(props);
+    this.rootRef = firebase.database().ref().child('tracker');
+    this.state = {
+      data: [],
+      miles: []
+    }
+  }
 
-  // componentDidMount() {
-  //   this.getData();
-  // }
+  componentDidMount() {
+    this.getData();
+  }
 
-//   getData = () => {
-//     this.rootRef.on('value', data => {
-//         data.forEach(milesnap => {
-//             const milekey = milesnap.key;
-//             const miledata = milesnap.val();
-//             this.setState({
-//               data: [...this.state.data, {
-//                 id: milesnap.key,
-//                 miles: miledata.miles,
-//                 time: miledata.time,
-//                 date: miledata.date
-//               }]
-//             })
-//         console.log(milekey, miledata);
-//         })
-//         console.log('this is tracker data', this.state.data)
-//     })
-// }
+  getData = () => {
+    this.rootRef.on('value', data => {
+        data.forEach(milesnap => {
+            const milekey = milesnap.key;
+            const miledata = milesnap.val();
+            this.setState({
+              data: [...this.state.data, {
+                id: milesnap.key,
+                miles: miledata.miles,
+                time: miledata.time,
+                date: miledata.date
+              }],
+              miles: [...this.state.miles, Number(milesnap.val().miles)]
+            })
+        console.log(milekey, miledata);
+        })
+        console.log('this is tracker data', this.state)
+    })
+}
 
   render() {
+    let total = 0;
+    this.state.miles.forEach(mile => {
+      total += mile;
+      return total;
+    })
+    console.log('this is total', total)
+
     return(
       <IonApp>
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Route path="/tab1" render={() => <Tab1 exact={true}/>} />
-          <Route path="/tab2" render={() => <Tab2 exact={true}/>} />
+          <Route path="/tab1" render={() => <Tab1 data={this.state.data} getData={this.getData} exact={true}/>} />
+          <Route path="/tab2" render={() => <Tab2 miles={this.state.miles} total={total} getData={this.getData} exact={true}/>} />
           <Route path="/" render={() => <Redirect to="/tab1" />} exact={true} />
         </IonRouterOutlet>
         <IonTabBar slot="bottom">

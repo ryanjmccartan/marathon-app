@@ -15,28 +15,28 @@ class Tab1 extends Component {
     }
   }
 
-  componentDidMount() {
-    this.getData();
-  }
+//   componentDidMount() {
+//     this.getData();
+//   }
 
-  getData = () => {
-    this.rootRef.on('value', data => {
-        data.forEach(milesnap => {
-            const milekey = milesnap.key;
-            const miledata = milesnap.val();
-            this.setState({
-              data: [...this.state.data, {
-                id: milesnap.key,
-                miles: miledata.miles,
-                time: miledata.time,
-                date: miledata.date
-              }]
-            })
-        console.log(milekey, miledata);
-        })
-        console.log('this is tracker data', this.state.data)
-    })
-}
+//   getData = () => {
+//     this.rootRef.on('value', data => {
+//         data.forEach(milesnap => {
+//             const milekey = milesnap.key;
+//             const miledata = milesnap.val();
+//             this.setState({
+//               data: [...this.state.data, {
+//                 id: milesnap.key,
+//                 miles: miledata.miles,
+//                 time: miledata.time,
+//                 date: miledata.date
+//               }]
+//             })
+//         console.log(milekey, miledata);
+//         })
+//         console.log('this is tracker data', this.state.data)
+//     })
+// }
 
   render() {
   return (
@@ -53,7 +53,7 @@ class Tab1 extends Component {
           </IonToolbar>
         </IonHeader>
         <IonList>
-          {this.state.data.map(data => (
+          {this.props.data.map(data => (
             <IonItem>
               <IonText>
                 <h1>Miles: {data.miles}</h1>
@@ -68,7 +68,7 @@ class Tab1 extends Component {
           ))}
           </IonList>
 
-        <AddMiles getData={this.getData}/>
+        <AddMiles getData={this.props.getData}/>
       </IonContent>
     </IonPage>
   );

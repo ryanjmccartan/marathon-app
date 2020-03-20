@@ -45,7 +45,7 @@ addMiles = () => {
             time: 0,
             date: new Date()
     })
-    this.props.getData();
+    // this.props.getData();
     console.log('miles added', this.state);
 }
         // this.rootRef.on('value', data => {
